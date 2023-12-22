@@ -82,7 +82,7 @@ renderHtml = images.reduce(
           data-source="${image.original}"
           alt="${image.description}"
           width="360"
-          height="200"
+          height="300"
         />
       </a>
     </li>`,

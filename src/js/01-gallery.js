@@ -64,24 +64,33 @@ const images = [
   },
 ];
 
-// .innerHTML = images.reduce(
-//   (html, images) =>
-//     html +
-//     `<li class="gallery-item">
-//   <a class="gallery-link" href="${images.original}">
-//     <img
-//       class="gallery-image"
-//       src="${images.preview}"
-//       data-source="${images.original}"
-//       alt="${images.description}"
-//     />
-//   </a>
-// </li>`,
-//   ''
-// );
+// знайшов елемент на сторінці
+const container = document.querySelector('.gallery');
+let renderHtml;
+// зібрав весь html в змінну
+renderHtml = images.reduce(
+  (html, image) =>
+    html +
+    `<li class="gallery-item">
+      <a class="gallery-link" href="${image.original}">
+        <img
+          class="gallery-image"
+          src="${image.preview}"
+          data-source="${image.original}"
+          alt="${image.description}"
+          width="360"
+          height="200"
+        />
+      </a>
+    </li>`,
+  ''
+);
 
-let gallery = new SimpleLightbox('.gallery a');
+// Вставка HTML в кінець контейнера
+container.insertAdjacentHTML('beforeend', renderHtml);
 
-gallery.on('show.simplelightbox', function () {
-  // Do something…
+let gallery = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+  captionSelector: 'img',
+  captionsData: 'alt',
 });

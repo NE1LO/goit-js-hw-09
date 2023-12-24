@@ -24,9 +24,9 @@ form.addEventListener('input', e => {
   localStorage.setItem(feedbackKey, JSON.stringify(inputValue));
 });
 
-form.addEventListener('submit', e => {
-  if (inputValue.email != '' && inputValue.message != '') {
-    e.preventDefault;
+form.addEventListener('submit', event => {
+  if (inputValue.email !== '' && inputValue.message !== '') {
+    event.preventDefault();
     console.log(inputValue);
     localStorage.removeItem(feedbackKey);
     form.reset();

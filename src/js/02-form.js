@@ -1,44 +1,34 @@
-const formRef = document.querySelector('.feedback-form');
-formRef.addEventListener('input', onformRefInput);
-const localStorageKey = 'feedback-form-state';
-
-const inputData = {
+const form = document.querySelector('.feedback-form');
+const feedbackKey = 'feedback-form';
+const inputValue = {
   email: '',
   message: '',
 };
 
-function onformRefInput(event) {
-  if (event.target.type === 'email') {
-    inputData.email = event.target.value;
-  } else if (event.target.type === 'textarea') {
-    inputData.message = event.target.value;
-  }
-
-  const inputDataJSON = JSON.stringify(inputData);
-
-  localStorage.setItem(localStorageKey, inputDataJSON);
+const parse = JSON.parse(localStorage.getItem(feedbackKey));
+if (parse) {
+  inputValue.email = parse.email;
+  inputValue.message = parse.message;
+  form.elements.email.value = parse.email;
+  form.elements.message.value = parse.message;
 }
 
-const savedInputData = localStorage.getItem(localStorageKey);
-const parsedInputData = JSON.parse(savedInputData);
-
-const textarea = formRef.elements.message;
-const email = formRef.elements.email;
-
-window.addEventListener('load', event => {
-  if (parsedInputData) {
-    textarea.value = parsedInputData.message;
-    email.value = parsedInputData.email;
-    inputData.email = parsedInputData.email;
-    inputData.message = parsedInputData.message;
+form.addEventListener('input', e => {
+  let eType = e.target.nodeName;
+  if ((eType = 'INPUT')) {
+    inputValue.email = e.target.value.trim();
   }
+  if ((eType = 'TEXTAREA')) {
+    inputValue.message = e.target.value.trim();
+  }
+  localStorage.setItem(feedbackKey, JSON.stringify(inputValue));
 });
 
-formRef.addEventListener('submit', e => {
-  e.preventDefault();
-  inputData.message = inputData.message.trim();
-  localStorage.removeItem(localStorageKey);
-  inputData.email = '';
-  inputData.message = '';
-  formRef.reset();
+form.addEventListener('submit', e => {
+  if (inputValue.email != '' && inputValue.message != '') {
+    e.preventDefault;
+    console.log(inputValue);
+    localStorage.removeItem(feedbackKey);
+    form.reset();
+  }
 });

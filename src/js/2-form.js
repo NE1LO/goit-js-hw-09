@@ -7,18 +7,18 @@ const inputValue = {
 
 const parse = JSON.parse(localStorage.getItem(feedbackKey));
 if (parse) {
-  inputValue.email = parse.email;
-  inputValue.message = parse.message;
-  form.elements.email.value = parse.email;
-  form.elements.message.value = parse.message;
+  inputValue.email = parse.email || '';
+  inputValue.message = parse.message || '';
+  form.elements.email.value = parse.email || '';
+  form.elements.message.value = parse.message || '';
 }
 
 form.addEventListener('input', e => {
-  let eType = e.target.nodeName;
-  if ((eType = 'INPUT')) {
+  const eType = e.target.nodeName;
+  if (eType === 'INPUT') {
     inputValue.email = e.target.value.trim();
   }
-  if ((eType = 'TEXTAREA')) {
+  if (eType === 'TEXTAREA') {
     inputValue.message = e.target.value.trim();
   }
   localStorage.setItem(feedbackKey, JSON.stringify(inputValue));
